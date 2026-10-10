@@ -47,7 +47,7 @@ def hunt(target_path: str, label: str = "round1") -> dict:
     with open(target_path) as f:
         code = f.read()
     print(f"[hunter] auditing {target_path} ...")
-    raw = ask(HUNTER_SYSTEM, HUNTER_PROMPT.format(code=code))
+    raw = ask(HUNTER_SYSTEM, HUNTER_PROMPT.replace("{code}", code))
     findings = json.loads(raw.strip().strip("`"))
 
     os.makedirs("reports", exist_ok=True)
