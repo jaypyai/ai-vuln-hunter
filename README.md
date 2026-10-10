@@ -71,6 +71,13 @@ python3 agents/hunter.py vulnerable_app/app.py round1
 python3 agents/fixer.py
 ```
 
+## Iteration log
+
+Five iterations, every mistake included: [docs/iterations.md](docs/iterations.md) —
+the full lab notebook with screenshots. Gist: the hunter went from gullible
+to paranoid to discerning to nondeterministic, and we ended up not trusting
+single runs at all (majority vote).
+
 ## What I learned
 
 - **Adversarial self-play works.** The re-hunt (round 2) is the whole point — a fix isn't done until the attacker confirms it.
