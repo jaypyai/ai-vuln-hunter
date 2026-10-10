@@ -12,6 +12,26 @@ vulnerable_app/app_fixed.py ◀── FIXER ────────────
    HUNTER (round 2) ──▶ verification: what survived?
 ```
 
+becomes:
+
+```
+vulnerable_app/app.py ──▶  HUNTER (round 1) ──▶ findings
+                                                   │
+                                                   ▼
+vulnerable_app/app_fixed.py ◀── FIXER ─────────────┘
+        │
+        ▼
+   VERIFIER ──▶ hunter × N passes ──▶ majority vote: what survived?
+```
+
+## Why majority vote
+
+Iteration 4 taught us the hunter is nondeterministic: identical prompts and
+code produced different verdicts on different runs. A single verification
+pass can't be trusted — so the verifier runs the hunter N times (default 3,
+`VERIFY_ROUNDS` to change) and keeps only findings a majority agree on.
+Don't trust single runs. Count votes.
+
 ## The vuln classes (deliberate targets)
 
 | # | Vulnerability | Where |
