@@ -10,6 +10,7 @@ Usage:
 
 import json
 import os
+import re
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -75,12 +76,40 @@ CODE:
 ```"""
 
 
+def parse_findings(raw: str, label: str) -> dict:
+    """Parse the hunter's JSON, tolerating markdown fences, prose wrapping,
+    and the invalid escapes models sometimes emit (e.g. a literal \\?)."""
+    text = raw.strip()
+    if text.startswith("```"):
+        text = text.split("\n", 1)[1] if "\n" in text else text[3:]
+        text = text.strip()
+        if text.endswith("```"):
+            text = text[:-3].strip()
+    start, end = text.find("{"), text.rfind("}")
+    if start != -1 and end > start:
+        text = text[start:end + 1]
+    try:
+        return json.loads(text)
+    except json.JSONDecodeError:
+        fixed = re.sub(r'\\([^"\\/bfnrtu])', r"\\\\\1", text)
+        try:
+            return json.loads(fixed)
+        except json.JSONDecodeError:
+            os.makedirs("reports", exist_ok=True)
+            with open(f"reports/hunter_{label}_raw.txt", "w") as f:
+                f.write(raw)
+            raise SystemExit(
+                f"[hunter] could not parse model output; raw saved to "
+                f"reports/hunter_{label}_raw.txt"
+            )
+
+
 def hunt(target_path: str, label: str = "round1") -> dict:
     with open(target_path) as f:
         code = f.read()
     print(f"[hunter] auditing {target_path} ...")
     raw = ask(HUNTER_SYSTEM, HUNTER_PROMPT.replace("{code}", code))
-    findings = json.loads(raw.strip().strip("`"))
+    findings = parse_findings(raw, label)
 
     os.makedirs("reports", exist_ok=True)
     with open(os.path.join("reports", f"hunter_{label}.json"), "w") as f:
