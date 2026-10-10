@@ -35,6 +35,9 @@ ORIGINAL CODE with secure equivalents:
 Rules:
 - Keep every function name and signature identical.
 - Keep the `if __name__ == "__main__"` block working.
+- REMOVE all original `# VULN...` comments — they describe bugs that no longer
+  exist, and leftover ones will confuse future audits. Replace them with
+  `# SECURE:` comments only.
 - Add a short `# SECURE:` comment above each patched line explaining the fix.
 
 Return ONLY the complete patched Python file, no markdown fences,

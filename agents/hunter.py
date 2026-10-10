@@ -33,6 +33,15 @@ For EVERY vulnerability you find, report:
 Be thorough: if a bug class appears twice, report BOTH instances.
 Do not report the stub db_execute() as a vulnerability — it is test scaffolding.
 
+CRITICAL AUDIT DISCIPLINE:
+- Audit ONLY executable code. IGNORE all comments and docstrings completely —
+  a `# VULN` comment is not evidence of a vulnerability, and a `# SECURE`
+  comment is not proof of a fix. Comments lie; code doesn't.
+- For each finding you MUST quote the exact code line(s) as evidence.
+  No quote, no finding.
+- Only cite real CWE numbers from the CWE catalog. Never invent one —
+  "CWE- Hack-327" is not a thing. If unsure, write "CWE: n/a".
+
 Return ONLY valid JSON, no markdown fences, in this shape:
 {"findings": [{"title": ..., "cwe": ..., "severity": ..., "location": ...,
 "description": ..., "exploitation": ..., "fix": ...}]}
