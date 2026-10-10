@@ -42,6 +42,24 @@ CRITICAL AUDIT DISCIPLINE:
 - Only cite real CWE numbers from the CWE catalog. Never invent one —
   "CWE- Hack-327" is not a thing. If unsure, write "CWE: n/a".
 
+RECOGNIZING REAL FIXES — do NOT report these as vulnerabilities:
+- Parameterized queries: if the SQL string uses ? or %s placeholders AND the
+  values are passed SEPARATELY (e.g. cursor.execute(query, params) or
+  db_execute(query, params)), the query is SAFE. Only report SQLi when user
+  input is interpolated directly into the query string via f-strings, %,
+  +, or .format().
+- Secrets via os.environ.get("X") are safe; only report hardcoded literals.
+- hashlib.pbkdf2_hmac / bcrypt / scrypt with a per-user salt is safe storage;
+  unsalted MD5/SHA1 is not.
+- subprocess with shell=False and an argument list is safe; shell=True with
+  interpolated input is not.
+- json.loads is safe deserialization; pickle.loads on untrusted input is not.
+- html.escape() on interpolated output is safe; raw interpolation is not.
+
+A fix is real when the dangerous *mechanism* is gone, not when the code
+merely looks different. If you cannot point to the live mechanism, do not
+report it.
+
 Return ONLY valid JSON, no markdown fences, in this shape:
 {"findings": [{"title": ..., "cwe": ..., "severity": ..., "location": ...,
 "description": ..., "exploitation": ..., "fix": ...}]}
