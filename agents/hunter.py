@@ -60,6 +60,11 @@ A fix is real when the dangerous *mechanism* is gone, not when the code
 merely looks different. If you cannot point to the live mechanism, do not
 report it.
 
+DEDUPLICATE: never report the same vulnerability twice. If two observations
+share the same title and location, merge them into ONE finding. Before
+finalizing, scan your list for repeats — same (title, location) twice means
+you made an error, not found two bugs.
+
 Return ONLY valid JSON, no markdown fences, in this shape:
 {"findings": [{"title": ..., "cwe": ..., "severity": ..., "location": ...,
 "description": ..., "exploitation": ..., "fix": ...}]}

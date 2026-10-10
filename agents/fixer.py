@@ -38,6 +38,11 @@ Rules:
 - REMOVE all original `# VULN...` comments — they describe bugs that no longer
   exist, and leftover ones will confuse future audits. Replace them with
   `# SECURE:` comments only.
+- Remove STALE CREDENTIAL ARTIFACTS: if the original code contains hardcoded
+  hashes, tokens, or secrets your patch no longer uses (e.g. an old MD5 hash
+  in a users dict), delete them. Replace with a short comment like
+  `# provisioned securely at deploy time`. Dead secrets in source are still
+  findings waiting to happen.
 - Add a short `# SECURE:` comment above each patched line explaining the fix.
 
 Return ONLY the complete patched Python file, no markdown fences,
