@@ -38,6 +38,7 @@ def _post(url: str, headers: dict, payload: dict) -> dict:
 
 
 def _anthropic(system: str, user: str, max_tokens: int) -> str:
+    model = os.environ.get("ANTHROPIC_MODEL", "claude-sonnet-4-5")
     data = _post(
         "https://api.anthropic.com/v1/messages",
         {
@@ -46,7 +47,7 @@ def _anthropic(system: str, user: str, max_tokens: int) -> str:
             "content-type": "application/json",
         },
         {
-            "model": "claude-sonnet-4-5",
+            "model": model,
             "max_tokens": max_tokens,
             "system": system,
             "messages": [{"role": "user", "content": user}],
@@ -58,6 +59,7 @@ def _anthropic(system: str, user: str, max_tokens: int) -> str:
 
 
 def _openai(system: str, user: str, max_tokens: int) -> str:
+    model = os.environ.get("OPENAI_MODEL", "gpt-4o-mini")
     data = _post(
         "https://api.openai.com/v1/chat/completions",
         {
@@ -65,7 +67,7 @@ def _openai(system: str, user: str, max_tokens: int) -> str:
             "content-type": "application/json",
         },
         {
-            "model": "gpt-4o-mini",
+            "model": model,
             "max_tokens": max_tokens,
             "messages": [
                 {"role": "system", "content": system},

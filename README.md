@@ -32,6 +32,18 @@ python3 agents/orchestrator.py
 
 No dependencies — stdlib only. Reports land in `reports/`.
 
+## Choosing models
+
+The API key picks the provider; the model is configurable per provider:
+
+```bash
+export OPENAI_MODEL='gpt-4o'              # default: gpt-4o-mini
+export ANTHROPIC_MODEL='claude-opus-4-6'   # default: claude-sonnet-4-5
+```
+
+Tip: run the hunter on the stronger model and the fixer on the cheaper one —
+right-sizing models per agent role is a real production pattern.
+
 Run agents individually:
 
 ```bash
