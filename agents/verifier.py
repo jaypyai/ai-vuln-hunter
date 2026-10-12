@@ -1,5 +1,5 @@
 """
-VERIFIER — majority-vote verification.
+VERIFIER, majority-vote verification.
 
 Runs the hunter N times against the patched app and keeps only the findings
 a majority of runs agree on. Lesson from iteration 4: single-run verdicts
@@ -46,14 +46,14 @@ def verify(target_path: str, rounds: int = 3) -> dict:
     consensus = []
     os.makedirs("reports", exist_ok=True)
     with open("reports/verifier_votes.md", "w") as f:
-        f.write(f"# Verifier votes — {rounds} passes, majority = {majority}\n")
+        f.write(f"# Verifier votes: {rounds} passes, majority = {majority}\n")
         f.write(f"Target: `{target_path}`\n\n")
         for k in order:
             e = tally[k]
             v = e["finding"]
             kept = e["votes"] >= majority
             mark = "KEPT" if kept else "dropped"
-            f.write(f"- [{mark}] {e['votes']}/{rounds} — "
+            f.write(f"- [{mark}] {e['votes']}/{rounds}, "
                     f"{v['title']} ({v['severity']}) @ {v['location']}\n")
             if kept:
                 vc = dict(v)

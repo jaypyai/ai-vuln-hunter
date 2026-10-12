@@ -1,5 +1,5 @@
 """
-HUNTER — the attacker agent.
+HUNTER, the attacker agent.
 
 Reads a Python file, audits it like a senior application-security
 engineer, and writes structured findings to reports/.
@@ -32,18 +32,18 @@ For EVERY vulnerability you find, report:
 - fix: one-line remediation guidance
 
 Be thorough: if a bug class appears twice, report BOTH instances.
-Do not report the stub db_execute() as a vulnerability — it is test scaffolding.
+Do not report the stub db_execute() as a vulnerability, it is test scaffolding.
 
 CRITICAL AUDIT DISCIPLINE:
-- Audit ONLY executable code. IGNORE all comments and docstrings completely —
+- Audit ONLY executable code. IGNORE all comments and docstrings completely,
   a `# VULN` comment is not evidence of a vulnerability, and a `# SECURE`
   comment is not proof of a fix. Comments lie; code doesn't.
 - For each finding you MUST quote the exact code line(s) as evidence.
   No quote, no finding.
-- Only cite real CWE numbers from the CWE catalog. Never invent one —
+- Only cite real CWE numbers from the CWE catalog. Never invent one,
   "CWE- Hack-327" is not a thing. If unsure, write "CWE: n/a".
 
-RECOGNIZING REAL FIXES — do NOT report these as vulnerabilities:
+RECOGNIZING REAL FIXES, do NOT report these as vulnerabilities:
 - Parameterized queries: if the SQL string uses ? or %s placeholders AND the
   values are passed SEPARATELY (e.g. cursor.execute(query, params) or
   db_execute(query, params)), the query is SAFE. Only report SQLi when user
@@ -63,7 +63,7 @@ report it.
 
 DEDUPLICATE: never report the same vulnerability twice. If two observations
 share the same title and location, merge them into ONE finding. Before
-finalizing, scan your list for repeats — same (title, location) twice means
+finalizing, scan your list for repeats, same (title, location) twice means
 you made an error, not found two bugs.
 
 Return ONLY valid JSON, no markdown fences, in this shape:
@@ -116,7 +116,7 @@ def hunt(target_path: str, label: str = "round1") -> dict:
         json.dump(findings, f, indent=2)
     out = os.path.join("reports", f"hunter_{label}.md")
     with open(out, "w") as f:
-        f.write(f"# Hunter findings — {label}\n")
+        f.write(f"# Hunter findings: {label}\n")
         f.write(f"Target: `{target_path}`\n\n")
         for i, v in enumerate(findings["findings"], 1):
             f.write(f"## {i}. {v['title']} ({v['severity']})\n")

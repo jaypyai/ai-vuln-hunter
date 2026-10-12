@@ -1,10 +1,10 @@
 """
-ORCHESTRATOR — runs the full adversarial loop.
+ORCHESTRATOR, runs the full adversarial loop.
 
   Round 1: hunter audits the vulnerable app
   Patch:   fixer patches every finding
   Round 2: verifier runs the hunter N times and majority-votes
-           (single-run verdicts are nondeterministic — votes are not)
+           (single-run verdicts are nondeterministic, votes are not)
   Report:  summary comparing round 1 vs round 2 consensus
 
 Usage:
@@ -24,20 +24,20 @@ from verifier import verify
 
 def main() -> None:
     print("=" * 60)
-    print("ROUND 1 — hunter vs vulnerable app")
+    print("ROUND 1: hunter vs vulnerable app")
     print("=" * 60)
     r1 = hunt("vulnerable_app/app.py", "round1")
     n1 = len(r1["findings"])
 
     print()
     print("=" * 60)
-    print("PATCH — fixer hardens the app")
+    print("PATCH: fixer hardens the app")
     print("=" * 60)
     fixed_path = fix()
 
     print()
     print("=" * 60)
-    print("ROUND 2 — verifier: N hunter passes, majority vote")
+    print("ROUND 2: verifier: N hunter passes, majority vote")
     print("=" * 60)
     rounds = int(os.environ.get("VERIFY_ROUNDS", 3))
     r2 = verify(fixed_path, rounds)
@@ -56,9 +56,9 @@ def main() -> None:
     if n2:
         summary += "## Surviving findings (majority-agreed, need human review)\n"
         for v in r2["findings"]:
-            summary += f"- {v['title']} ({v['severity']}) — {v['location']} [votes: {v.get('votes', '?')}]\n"
+            summary += f"- {v['title']} ({v['severity']}), {v['location']} [votes: {v.get('votes', '?')}]\n"
     else:
-        summary += "Clean sweep — no finding survived the majority vote.\n"
+        summary += "Clean sweep, no finding survived the majority vote.\n"
 
     os.makedirs("reports", exist_ok=True)
     with open("reports/summary.md", "w") as f:

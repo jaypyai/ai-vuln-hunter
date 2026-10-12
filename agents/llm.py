@@ -1,12 +1,12 @@
 """
-Minimal LLM client — zero dependencies (stdlib urllib only).
+Minimal LLM client, zero dependencies (stdlib urllib only).
 
 Uses whichever key is set:
   ANTHROPIC_API_KEY -> Anthropic Messages API (claude-sonnet-4-5)
   OPENAI_API_KEY    -> OpenAI Chat Completions API (gpt-4o-mini)
 
 Set exactly one. Get a key at https://console.anthropic.com or
-https://platform.openai.com. Never commit keys — use a .env file
+https://platform.openai.com. Never commit keys, use a .env file
 or export them in your shell.
 """
 

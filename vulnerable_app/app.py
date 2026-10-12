@@ -1,5 +1,5 @@
 """
-Vulnerable demo app — DO NOT DEPLOY. Built as a target for the vuln-hunter agents.
+Vulnerable demo app, DO NOT DEPLOY. Built as a target for the vuln-hunter agents.
 
 A tiny "employee portal" with 6 classic vulnerability classes baked in
 (7 instances total). The hunter agent's job is to find them all;
@@ -18,7 +18,7 @@ USERS = {"admin": "5f4dcc3b5aa765d61d8327deb882cf99"}
 
 
 def db_execute(query):
-    # Stub — the agents analyze how queries are *built*, not the DB itself.
+    # Stub, the agents analyze how queries are *built*, not the DB itself.
     return f"[db] {query}"
 
 
@@ -29,19 +29,19 @@ def login(username, password):
 
 
 def search_users(term):
-    # VULN 2 (again): SQL injection via string concatenation — a second
+    # VULN 2 (again): SQL injection via string concatenation, a second
     # instance for the hunter to catch (tests thoroughness, not just luck)
     query = "SELECT * FROM users WHERE name LIKE '%" + term + "%'"
     return db_execute(query)
 
 
 def verify_password(username, password):
-    # VULN 3: weak password storage — unsalted MD5, crackable in seconds
+    # VULN 3: weak password storage, unsalted MD5, crackable in seconds
     return hashlib.md5(password.encode()).hexdigest() == USERS.get(username)
 
 
 def run_report(report_name):
-    # VULN 4: command injection — user input straight into a shell command
+    # VULN 4: command injection, user input straight into a shell command
     result = subprocess.run(
         f"generate_report --name {report_name}",
         shell=True, capture_output=True, text=True,
@@ -50,12 +50,12 @@ def run_report(report_name):
 
 
 def load_session(data):
-    # VULN 5: insecure deserialization — untrusted pickle payload
+    # VULN 5: insecure deserialization, untrusted pickle payload
     return pickle.loads(data)
 
 
 def render_greeting(name):
-    # VULN 6: reflected XSS — unescaped user input in HTML output
+    # VULN 6: reflected XSS, unescaped user input in HTML output
     return f"<h1>Welcome back, {name}!</h1>"
 
 

@@ -1,5 +1,5 @@
 """
-FIXER — the defender agent.
+FIXER, the defender agent.
 
 Takes the hunter's findings plus the original vulnerable code, and produces
 a patched version of the file. Writes vulnerable_app/app_fixed.py and a
@@ -35,7 +35,7 @@ ORIGINAL CODE with secure equivalents:
 Rules:
 - Keep every function name and signature identical.
 - Keep the `if __name__ == "__main__"` block working.
-- REMOVE all original `# VULN...` comments — they describe bugs that no longer
+- REMOVE all original `# VULN...` comments, they describe bugs that no longer
   exist, and leftover ones will confuse future audits. Replace them with
   `# SECURE:` comments only.
 - Remove STALE CREDENTIAL ARTIFACTS: if the original code contains hardcoded
